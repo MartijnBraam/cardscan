@@ -12,7 +12,7 @@ class idcard(object):
         self.name = 'Dutch personal identification card'
 
     def match(self, inputImage):
-        template = Image("data/idcard/nl/idcard_nl.png")
+        template = Image("data/nl/government/idcard/idcard_nl.png")
         res = inputImage.findTemplate(template_image=template, threshold=4)
         if res:
             width = template.width
@@ -26,12 +26,12 @@ class idcard(object):
             return None
 
     def fixRotation(self, card):
-        feature_top_left = Image("data/idcard/nl/idcard_nl_topleft.png")
+        feature_top_left = Image("data/nl/government/idcard/idcard_nl_topleft.png")
         pos_top_left = card.findTemplate(template_image=feature_top_left, threshold=4)[0]
         box = pos_top_left.boundingBox()
         top_left_center = (box[0]+box[2]/2, box[1]+box[3]/2)
 
-        feature_bottom_right = Image("data/idcard/nl/idcard_nl_bottomright.png")
+        feature_bottom_right = Image("data/nl/government/idcard/idcard_nl_bottomright.png")
         pos_bottom_right = card.findTemplate(template_image=feature_bottom_right, threshold=5)[0]
         box = pos_bottom_right.boundingBox()
         bottom_right_center = (box[0]+box[2]/2, box[1]+box[3]/2)
