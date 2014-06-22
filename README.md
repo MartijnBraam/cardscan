@@ -34,6 +34,7 @@ $ echo ":)"
 
 ## Example output
 
+This is censored example output from a scan of a dutch indentification card
 ```yaml
 - card:
     class: personal-indentification
