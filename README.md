@@ -31,6 +31,28 @@ $ git clone git@github.com:MartijnBraam/cardscan.git
 $ cd cardscan
 $ echo ":)"
 ```
- 
+
+## Example output
+
+```yaml
+- card:
+    class: personal-indentification
+    type: nl.government.idcard
+  authority: Burg. van Midden-Drenthe
+  country: nl
+  documentId: ********
+  person:
+    birth: {date: '1900-01-01', place: Amsterdam}
+    gender: male
+    givenNames: Example First Names
+    height: 1.92
+    nationality: Nederlandse
+    personalId: ********
+    surname: Example-Lastname
+  validity: 
+    start: 2012-1-09
+    end: 2017-1-09
+```
+
  
   [simplecv]: http://simplecv.org/
