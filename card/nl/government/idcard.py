@@ -1,14 +1,14 @@
 from SimpleCV import *
+from card.base import BaseCard
 from time import strptime
 import math
 
 
-class idcard(object):
+class idcard(BaseCard):
     def __init__(self):
-        self.card = None
+        super(idcard, self).__init__()
         self.card_aspect = 0.6272189349112426
         self.feature_angle = 47.0
-        self.fields = {}
         self.name = 'Dutch personal identification card'
         self.match_template = 'data/nl/government/idcard/idcard_nl.png'
 
@@ -112,15 +112,3 @@ class idcard(object):
         datestr = "{}-{}-{}".format(year,month,day) # 2014-4-12
         return datestr
 
-    def get_text(self, card, label, x, y, w, h):
-        field = card.crop(x=x, y=y, w=w, h=h)
-        field = field.grayscale() * 1.2 # Convert to grayscale and increase brightness
-        field_text = field.readText().strip().split("\n")[0] # Run tesseract OCR and cleanup result
-        self.fields[label] = field_text
-
-    def get_signature(self, card, x, y, w, h):
-        field = card.crop(x=x, y=y, w=w, h=h)
-        field = field.grayscale().binarize().invert()
-
-    def get_photo(self, card, x, y, w, h):
-        field = card.crop(x=x, y=y, w=w, h=h)
