@@ -5,15 +5,16 @@ import math
 
 
 class idcard(BaseCard):
-    def __init__(self):
-        super(idcard, self).__init__()
+    def __init__(self, debug):
         self.card_aspect = 0.6272189349112426
         self.feature_angle = 47.0
         self.name = 'Dutch personal identification card'
-        self.match_template = 'data/nl/government/idcard/idcard_nl.png'
+        self.data_directory = 'data/nl/government/idcard'
+        self.dn = 'nl.government.idcard'
+        super(idcard, self).__init__(debug)
 
     def match(self, input_image):
-        template = Image(self.match_template)
+        template = Image(self.data_directory + "/template.png")
         res = input_image.findTemplate(template_image=template, threshold=4)
         if res:
             width = template.width
@@ -21,28 +22,10 @@ class idcard(BaseCard):
             card = input_image.crop(x=res.x()[0], y=res.y()[0], w=width+10, h=height+10)
             card = card.resize(w=1000)
 
-            card = self.fix_rotation(card)
+            card = self.fix_rotation_twofeatures(card, ('top_left.png', 4), 'bottom_right.png')
             return self.parse(card)
         else:
             return None
-
-    def fix_rotation(self, card):
-        feature_top_left = Image("data/nl/government/idcard/idcard_nl_topleft.png")
-        pos_top_left = card.findTemplate(template_image=feature_top_left, threshold=4)[0]
-        box = pos_top_left.boundingBox()
-        top_left_center = (box[0]+box[2]/2, box[1]+box[3]/2)
-
-        feature_bottom_right = Image("data/nl/government/idcard/idcard_nl_bottomright.png")
-        pos_bottom_right = card.findTemplate(template_image=feature_bottom_right, threshold=5)[0]
-        box = pos_bottom_right.boundingBox()
-        bottom_right_center = (box[0]+box[2]/2, box[1]+box[3]/2)
-
-        dx, dy = bottom_right_center[0]-top_left_center[0], bottom_right_center[1]-top_left_center[1]
-        rads = math.atan2(dx, dy)
-        degrees = math.degrees(rads)
-        delta_angle = degrees - self.feature_angle
-        card = card.rotate(delta_angle)
-        return card
 
     def parse(self, card):
         self.get_text(card, "nationality", x=355, y=105, w=340, h=37)
@@ -104,11 +87,11 @@ class idcard(BaseCard):
 
     def parse_date(self, datestr):
         # datestr: 12 MAA/MAR 2014
-        datestr = datestr.replace(" ", "") # 12MAA/MAR2014
+        datestr = datestr.replace(" ", "")  # 12MAA/MAR2014
         year = datestr[9:13] # 2014
-        month = datestr[6:9].lower() # mar
-        month = strptime(month, "%b").tm_mon # 4
+        month = datestr[6:9].lower()  # mar
+        month = strptime(month, "%b").tm_mon  # 4
         day = datestr[0:2] # 12
-        datestr = "{}-{}-{}".format(year,month,day) # 2014-4-12
+        datestr = "{}-{}-{}".format(year, month, day)  # 2014-4-12
         return datestr
 
