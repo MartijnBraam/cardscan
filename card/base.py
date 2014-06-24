@@ -11,14 +11,23 @@ class BaseCard(object):
         field = card.crop(x=x, y=y, w=w, h=h)
         field = field.grayscale() * 1.2 # Convert to grayscale and increase brightness
         field_text = field.readText().strip().split("\n")[0] # Run tesseract OCR and cleanup result
+        if self.debug:
+            card.drawRectangle(x=x, y=y, w=w, h=h, color=Color.RED)
+            card.drawText("{}: {}".format(label, field_text), x=x+10, y=y, color=Color.RED)
         self.fields[label] = field_text
 
     def get_signature(self, card, x, y, w, h):
         field = card.crop(x=x, y=y, w=w, h=h)
         field = field.grayscale().binarize().invert()
+        if self.debug:
+            card.drawRectangle(x=x, y=y, w=w, h=h, color=Color.RED)
+            card.drawText("Signature", x=x+10, y=y, color=Color.RED)
 
     def get_photo(self, card, x, y, w, h):
         field = card.crop(x=x, y=y, w=w, h=h)
+        if self.debug:
+            card.drawRectangle(x=x, y=y, w=w, h=h, color=Color.RED)
+            card.drawText("Photo", x=x+10, y=y, color=Color.RED)
 
     def get_feature_center(self, card, filename):
         if isinstance(filename, str):

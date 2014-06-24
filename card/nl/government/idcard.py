@@ -28,21 +28,24 @@ class idcard(BaseCard):
             return None
 
     def parse(self, card):
-        self.get_text(card, "nationality", x=355, y=105, w=340, h=37)
-        self.get_text(card, "document_no", x=690, y=105, w=300, h=37)
-        self.get_text(card, "surname", x=355, y=160, w=700, h=37)
-        self.get_text(card, "given_names", x=355, y=218, w=400, h=37)
+        self.get_text(card, "nationality", x=355, y=105, w=320, h=37)
+        self.get_text(card, "document_no", x=690, y=105, w=275, h=37)
+        self.get_text(card, "surname", x=355, y=160, w=600, h=37)
+        self.get_text(card, "given_names", x=355, y=218, w=390, h=37)
         self.get_text(card, "gender", x=750, y=218, w=150, h=37)
-        self.get_text(card, "date_of_birth", x=355, y=275, w=410, h=37)
+        self.get_text(card, "date_of_birth", x=355, y=275, w=390, h=37)
         self.get_text(card, "height", x=750, y=275, w=150, h=37)
-        self.get_text(card, "place_of_birth", x=355, y=328, w=700, h=37)
-        self.get_text(card, "personal_no", x=355, y=385, w=700, h=37)
+        self.get_text(card, "place_of_birth", x=355, y=328, w=600, h=37)
+        self.get_text(card, "personal_no", x=355, y=385, w=600, h=37)
         self.get_text(card, "date_of_issue", x=355, y=439, w=300, h=37)
-        self.get_text(card, "date_of_expiry", x=690, y=439, w=300, h=37)
-        self.get_text(card, "authority", x=355, y=495, w=700, h=37)
+        self.get_text(card, "date_of_expiry", x=690, y=439, w=275, h=37)
+        self.get_text(card, "authority", x=355, y=495, w=600, h=37)
 
-        self.get_signature(card, x=30, y=500, w=340, h=120)
+        self.get_signature(card, x=30, y=500, w=320, h=120)
         self.get_photo(card, x=80, y=110, w=240, h=350)
+
+        if self.debug:
+            card.save("debug/" + self.dn + "_gettext.png")
 
         structure = {
             'card': {
