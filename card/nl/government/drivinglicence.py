@@ -36,7 +36,7 @@ class drivinglicence(BaseCard):
         self.get_text(card, "date_of_expiry", x=580, y=260, w=170, h=32)
         self.get_text(card, "authority", x=320, y=310, w=600, h=32)
         self.get_text(card, "card_no", x=320, y=357, w=210, h=32)
-        self.get_text(card, "valid_verhicles", x=580, y=400, w=300, h=32)
+        self.get_text(card, "categories", x=580, y=400, w=300, h=32)
 
         self.unique_id += self.fields['card_no']
 
@@ -63,7 +63,7 @@ class drivinglicence(BaseCard):
                 'end': self.parse_date(self.fields['date_of_expiry'])
             },
             'authority': self.fields['authority'],
-            'validFor': self.fields['valid_verhicles']
+            'categories': self.parse_categories(self.fields['categories'])
         }
 
         if self.debug:
@@ -82,3 +82,26 @@ class drivinglicence(BaseCard):
         except:
             return "invalid"
         return datestr
+
+    def parse_categories(self, categorystr):
+        # categorystr: AM-B
+        categorystr = categorystr.replace(" ", "").lower()
+        categories = categorystr.split("-")
+        result = {
+            'moped': 'am' in categories,
+            'bike11kw': 'a1' in categories,
+            'bike35kw': 'a2' in categories,
+            'bike': 'a' in categories,
+            'car': 'b' in categories,
+            'truck': 'c' in categories,
+            'lightTruck': 'c1' in categories,
+            'lightTruckWithTrailer': 'c1e' in categories,
+            'bus': 'd' in categories,
+            'smallBus': 'd1' in categories,
+            'carWithTraler': 'be' in categories,
+            'truckWithTrailer': 'ce' in categories,
+            'busWithTrailer': 'de' in categories,
+            'smallBusWithTrailer': 'd1e' in categories,
+            'tractor': 't' in categories
+        }
+        return result
