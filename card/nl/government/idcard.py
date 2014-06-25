@@ -1,7 +1,6 @@
 from SimpleCV import *
 from card.base import BaseCard
 from time import strptime
-import math
 
 
 class idcard(BaseCard):

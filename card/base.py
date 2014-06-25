@@ -1,4 +1,5 @@
 from SimpleCV import *
+import math
 
 
 class BaseCard(object):
@@ -7,11 +8,19 @@ class BaseCard(object):
         self.card = None
         self.debug = debug
 
-    def get_text(self, card, label, x, y, w, h):
-        field = card.crop(x=x, y=y, w=w, h=h)
+    def get_text(self, card, label, x, y, w, h, color=Color.BLACK):
+        field = card.crop(x=int(x), y=int(y), w=int(w), h=int(h))
         field = field.grayscale() * 1.2 # Convert to grayscale and increase brightness
-        field_text = field.readText().strip().split("\n")[0] # Run tesseract OCR and cleanup result
+        field = field.binarize()
+        try:
+            field_text = field.readText().strip().split("\n")[0] # Run tesseract OCR and cleanup result
+        except:
+            field_text = ""
+
         if self.debug:
+            if not os.path.isdir("debug/get_text"):
+                os.mkdir("debug/get_text")
+            field.save("debug/get_text/" + label + ".png")
             card.drawRectangle(x=x, y=y, w=w, h=h, color=Color.RED)
             card.drawText("{}: {}".format(label, field_text), x=x+10, y=y, color=Color.RED)
         self.fields[label] = field_text

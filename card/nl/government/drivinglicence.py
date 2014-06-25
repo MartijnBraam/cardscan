@@ -1,7 +1,6 @@
 from SimpleCV import *
 from card.base import BaseCard
 from time import strptime
-import math
 
 
 class drivinglicence(BaseCard):
@@ -28,5 +27,12 @@ class drivinglicence(BaseCard):
             return None
 
     def parse(self, card):
+        self.get_text(card, "surname", x=320, y=100, w=600, h=37)
+        self.get_text(card, "first_name", x=320, y=166, w=600, h=32)
+        self.get_text(card, "birth_date", x=320, y=210, w=170, h=32)
+        self.get_text(card, "birth_place", x=500, y=210, w=400, h=32)
+
+        if self.debug:
+            card.save("debug/" + self.dn + "_gettext.png")
 
         return {}
