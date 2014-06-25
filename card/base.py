@@ -10,7 +10,8 @@ class BaseCard(object):
 
     def get_text(self, card, label, x, y, w, h, color=Color.BLACK):
         field = card.crop(x=int(x), y=int(y), w=int(w), h=int(h))
-        field = field.grayscale() * 1.2 # Convert to grayscale and increase brightness
+        field = field.whiteBalance()
+        field = field.grayscale() * 1.2  # Convert to grayscale and increase brightness
         field = field.binarize()
         try:
             field_text = field.readText().strip().split("\n")[0] # Run tesseract OCR and cleanup result

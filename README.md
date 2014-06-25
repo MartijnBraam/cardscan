@@ -10,6 +10,7 @@ features:
  
 Supported cards:
  - Dutch personal indentification card
+ - Dutch driving licence
  
 ## Installation
 
