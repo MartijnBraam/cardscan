@@ -15,7 +15,7 @@ class CardScan:
         class_name = dn.split(".")[-1]
         mod = __import__(dn, fromlist=[class_name])
         card_class = getattr(mod, class_name)
-        self.card_parsers.append(card_class(self.args.debug))
+        self.card_parsers.append(card_class(self.args))
         if self.verbose:
             print("Added detection class {}".format(dn))
 
@@ -85,6 +85,7 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--debug',
                         help="This creates a debug directory in the current directory with debug files from the card classes",
                         action="store_true")
+    parser.add_argument('-e', '--export', help="Export extracted images like signature and photo", action="store_true")
     args = parser.parse_args()
 
     cardscan = CardScan(args)

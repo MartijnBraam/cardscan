@@ -4,3 +4,5 @@ core
 tessdata
 .idea
 debug/
+*.photo.png
+*.signature.png

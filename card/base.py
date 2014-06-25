@@ -3,10 +3,11 @@ import math
 
 
 class BaseCard(object):
-    def __init__(self, debug):
+    def __init__(self, args):
         self.fields = {}
         self.card = None
-        self.debug = debug
+        self.args = args
+        self.debug = args.debug
 
     def get_text(self, card, label, x, y, w, h, color=Color.BLACK):
         field = card.crop(x=int(x), y=int(y), w=int(w), h=int(h))
@@ -32,12 +33,16 @@ class BaseCard(object):
         if self.debug:
             card.drawRectangle(x=x, y=y, w=w, h=h, color=Color.RED)
             card.drawText("Signature", x=x+10, y=y, color=Color.RED)
+        if self.args.export:
+            field.save(self.unique_id + ".signature.png")
 
     def get_photo(self, card, x, y, w, h):
         field = card.crop(x=x, y=y, w=w, h=h)
         if self.debug:
             card.drawRectangle(x=x, y=y, w=w, h=h, color=Color.RED)
             card.drawText("Photo", x=x+10, y=y, color=Color.RED)
+        if self.args.export:
+            field.save(self.unique_id + ".photo.png")
 
     def get_feature_center(self, card, filename):
         if isinstance(filename, str):

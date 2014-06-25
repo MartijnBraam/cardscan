@@ -4,13 +4,14 @@ from time import strptime
 
 
 class idcard(BaseCard):
-    def __init__(self, debug):
+    def __init__(self, args):
         self.card_aspect = 0.6272189349112426
         self.feature_angle = 47.0
         self.name = 'Dutch personal identification card'
         self.data_directory = 'data/nl/government/idcard'
         self.dn = 'nl.government.idcard'
-        super(idcard, self).__init__(debug)
+        self.unique_id = 'nl.government.idcard.'
+        super(idcard, self).__init__(args)
 
     def match(self, input_image):
         template = Image(self.data_directory + "/template.png")
@@ -39,6 +40,8 @@ class idcard(BaseCard):
         self.get_text(card, "date_of_issue", x=355, y=439, w=300, h=37)
         self.get_text(card, "date_of_expiry", x=690, y=439, w=275, h=37)
         self.get_text(card, "authority", x=355, y=495, w=600, h=37)
+
+        self.unique_id += self.fields['document_no']
 
         self.get_signature(card, x=30, y=500, w=320, h=120)
         self.get_photo(card, x=80, y=110, w=240, h=350)
